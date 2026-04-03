@@ -12,8 +12,6 @@ mkdir -p /etc/telemt
 
 cat <<EOF > "/etc/telemt/telemt.toml"
 [general]
-prefer_ipv6 = false
-fast_mode = true
 use_middle_proxy = false
 
 [general.modes]
@@ -23,7 +21,6 @@ tls = true
 
 [server]
 port = 443
-listen_addr_ipv4 = "0.0.0.0"
 
 # === Timeouts (in seconds) ===
 [timeouts]
@@ -39,13 +36,14 @@ listen = "127.0.0.1:9091"
 # read_only = true
 
 # === Anti-Censorship & Masking ===
+
 [censorship]
 tls_domain = "$DOMAIN"
 mask = true
 mask_port = 500
 mask_host = "127.0.0.1"
-# mask_proxy_protocol = true
-fake_cert_len = 2048
+tls_emulation = true        # Fetch real cert lengths and emulate TLS records
+tls_front_dir = "tlsfront"
 
 [access]
 replay_check_len = 65536
